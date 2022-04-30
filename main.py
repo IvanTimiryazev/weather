@@ -15,12 +15,12 @@ bot = Bot(token=BOT_TOKEN, parse_mode='HTML')
 dp = Dispatcher(bot)
 
 
-async def on_startup(dp):
-    await bot.set_webhook(URL_APP)
-
-
-async def on_shutdown(dp):
-    await bot.delete_webhook()
+# async def on_startup(dp):
+#     await bot.set_webhook(URL_APP)
+#
+#
+# async def on_shutdown(dp):
+#     await bot.delete_webhook()
 
 URL = 'https://weather.rambler.ru/v-sankt-peterburge/'
 HEADERS = {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\
@@ -48,12 +48,12 @@ async def start(message: types.Message):
         + '\n\n' + 'Прогноз: ' + '\n' + temp_night + '\n' + temp_morning
         + '\n' + temp_day + '\n\n' + date)
 
-
-executor.start_webhook(
-    dispatcher=dp,
-    webhook_path='',
-    on_startup=on_startup,
-    on_shutdown=on_shutdown,
-    skip_updates=True,
-    host="0.0.0.0",
-    port=int(os.environ.get("PORT", 5000)))
+executor.start_polling(dp, skip_updates=True)
+# executor.start_webhook(
+#     dispatcher=dp,
+#     webhook_path='',
+#     on_startup=on_startup,
+#     on_shutdown=on_shutdown,
+#     skip_updates=True,
+#     host="0.0.0.0",
+#     port=int(os.environ.get("PORT", 5000)))
