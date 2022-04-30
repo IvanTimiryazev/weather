@@ -1,8 +1,10 @@
+import os
+
 import aiogram
 import asyncio
 from bs4 import BeautifulSoup
 import requests
-from config import BOT_TOKEN
+from config import BOT_TOKEN, URL_APP
 from aiogram.dispatcher import Dispatcher
 from aiogram import Bot, types
 from aiogram.dispatcher.filters import Text
@@ -11,6 +13,15 @@ import re
 
 bot = Bot(token=BOT_TOKEN, parse_mode='HTML')
 dp = Dispatcher(bot)
+
+
+async def on_startup(dp):
+    await bot.set_webhook(URL_APP)
+
+
+async def on_shutdown(dp):
+    await bot.delete_webhook()
+
 URL = 'https://weather.rambler.ru/v-sankt-peterburge/'
 HEADERS = {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\
  (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36', 'accept': '*/*'}
@@ -38,4 +49,11 @@ async def start(message: types.Message):
         + '\n' + temp_day + '\n\n' + date)
 
 
-executor.start_polling(dp, skip_updates=True)
+executor.start_webhook(
+    dispatcher=dp,
+    webhook_path='',
+    on_startup=on_startup,
+    on_shutdown=on_shutdown,
+    skip_updates=True,
+    host="0.0.0.0",
+    port=int(os.environ.get("PORT", 5000)))
