@@ -3,7 +3,7 @@ import aiogram
 import asyncio
 from bs4 import BeautifulSoup
 import requests
-from config import BOT_TOKEN, URL_APP
+from config import BOT_TOKEN
 from aiogram.dispatcher import Dispatcher
 from aiogram import Bot, types
 from aiogram.dispatcher.filters import Text
