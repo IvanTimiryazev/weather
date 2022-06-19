@@ -1,4 +1,7 @@
-BOT_TOKEN = '5479488164:AAHiM8wEeFBtGQVALCx4w16cKHVNA5SS2Bc'
+import os
+
+BOT_TOKEN = os.getenv('WEATHER_TOKEN')
+
 
 
 
